@@ -15,7 +15,8 @@ export class BookService {
   }
 
   initList(): Book[] {
-
+    if (!this.localstorageservice.exists(this.lsName))
+      return []
     const list = JSON.parse(this.localstorageservice.getItem(this.lsName))
     if (!list) return []
 
@@ -31,8 +32,16 @@ export class BookService {
     localStorage.setItem(this.lsName, JSON.stringify(this.books))
   }
 
-  find(id: number) {
-    return this.books.find(x => x.id == id)
+  edit(book: Book) {
+    const books = this.list()
+    const index = books.findIndex(x => x.guid == book.guid)
+    books.splice(index, 1)
+    books.push(book)
+    this.localstorageservice.setItem(this.lsName, JSON.stringify(books))
+  }
+
+  find(guid: string) {
+    return this.books.find(x => x.guid == guid)
   }
 
   findBy(title: string) {

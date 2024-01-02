@@ -1,1 +1,37 @@
-<p>book-list works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                Book List(10)
+                <div>
+                    <a class="btn btn-success mx-1" [routerLink]="['/book-create']">Create New Book</a>
+                    <a class="btn btn-primary mx-1" [routerLink]="['/']">Goto Dashboard</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-strip">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Date</th>
+                            <th>CategoryId</th>
+                            <th>IsPublished</th>
+                            <th>Opration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of books">
+                            <td>{{item.title}}</td>
+                            <td>{{item.author}}</td>
+                            <td>{{item.date}}</td>
+                            <td>{{item.categoryId}}</td>
+                            <td>{{item.isPublished}}</td>
+                            <td><a class="btn btn-warning" [routerLink]="['/book-edit', item.guid]">Edit</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

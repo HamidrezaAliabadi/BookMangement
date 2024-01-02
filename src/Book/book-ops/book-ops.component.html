@@ -1,1 +1,76 @@
-<p>book-ops works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                Book Form
+                <div>
+                    <a class="btn btn-warning mx-1" [routerLink]="['/book-list']">Back</a>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <form class="row g-3" [formGroup]="bookForm" (submit)="submit()">
+                    <div class="col-md-6">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" autocomplete="false" formControlName="title">
+                        <ul class="text-danger" *ngIf="title?.invalid && (title?.touched || title?.dirty)">
+                            <li *ngIf="title?.errors?.['required']">
+                                Title is required.
+                            </li>
+                            <li *ngIf="title?.errors?.['maxlength']">
+                                max length is {{title?.errors?.['maxlength'].requiredLength}}.
+                            </li>
+                            <li *ngIf="title?.errors?.['minlength']">
+                                min length is {{title?.errors?.['minlength'].requiredLength}}.
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="author" class="form-label">Author</label>
+                        <input type="text" class="form-control" id="author" autocomplete="false"
+                            formControlName="author">
+                        <ul class="text-danger" *ngIf="author?.invalid && (author?.touched || author?.dirty)">
+                            <li *ngIf="author?.errors?.['required']">
+                                Title is required.
+                            </li>
+                            <li *ngIf="author?.errors?.['maxlength']">
+                                max length is {{author?.errors?.['maxlength'].requiredLength}}.
+                            </li>
+                            <li *ngIf="author?.errors?.['minlength']">
+                                min length is {{author?.errors?.['minlength'].requiredLength}}.
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-4">
+                        <label for="date" class="form-label">Publish Date</label>
+                        <input type="text" class="form-control" id="date" placeholder="1402/01/01" autocomplete="false"
+                            formControlName="date">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="categoryId" class="form-label">Category</label>
+                        <select id="categoryId" class="form-select" formControlName="categoryId">
+                            <option selected value="0">Choose Book Category...</option>
+                            <option [value]="item.id" *ngFor="let item of categories">{{item.title}}</option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label class="form-label sr-only"></label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="isPublished" autocomplete="false"
+                                formControlName="isPublished">
+                            <label class="form-check-label" for="isPublished">
+                                Is Published
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <p class="text-primary">{{summary}}</p>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
