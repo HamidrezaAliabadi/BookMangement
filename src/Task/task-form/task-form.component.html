@@ -1,0 +1,26 @@
+<form class="row g-3 mb-4 pb-2">
+  <div class="col-8">
+    <div class="form-outline">
+      <input type="text" id="taskTitle" class="form-control" [(ngModel)]="taskTitle"
+        [ngModelOptions]="{standalone: true}" (ngModelChange)="titleFilter()" (keypress)="toPersian($event)"
+        placeholder="عنوان وظیفه" />
+
+      <input type="hidden" id="taskId" class="form-control" [(ngModel)]="taskId"
+        [ngModelOptions]="{standalone: true}" />
+    </div>
+  </div>
+
+  <div class="col-4 text-end">
+    <app-icon-button color="primary" type="submit" title="افزودن وظیفه" icon="plus-circle-fill"
+      (clicked)="addTask()"></app-icon-button>
+
+    <app-icon-button color="danger" type="submit" title="حذف همه" icon="trash3-fill" customClass="mx-1"
+      (clicked)="deleteAll()"></app-icon-button>
+    <!-- <a class="btn btn-warning mx-1" [routerLink]="['/task-table']"><i class="bi bi-back"></i></a> -->
+    <!-- <a class="btn btn-primary mx-1" [routerLink]="['']"><i class="bi bi-speedometer"></i></a> -->
+    <app-icon-button color="warning" customClass="mx-1" type="button" title="بازگشت به لیست" icon="back"
+      [routerLink]="['/task-table']"></app-icon-button>
+    <app-icon-button color="primary" type="button" title="علی آبادی" icon="speedometer"
+      [routerLink]="['']"></app-icon-button>
+  </div>
+</form>

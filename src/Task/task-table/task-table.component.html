@@ -1,0 +1,87 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        Task List(5)
+        <div>
+            <a class="btn btn-success mx-1" [routerLink]="['/task-create']">Create New Task</a>
+            <a class="btn btn-primary mx-1" [routerLink]="['/']">Goto Dashboard</a>
+        </div>
+    </div>
+      <div class="card-body">
+        <table class="table table-striped mb-4">
+          <thead class="bg-secondary text-light">
+            <tr>
+              <th appHighlight color="red" scope="col">ردیف</th>
+              <th appHighlight color="blue" scope="col">عنوان وظیفه</th>
+              <th appHighlight color="brown" scope="col">وضعیت</th>
+              <th appHighlight color="green" scope="col">پیشرفت</th>
+              <th appHighlight color="purple" scope="col">عملیات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="filteredTasks.length; else noItemInTask">
+              <tr *ngFor="let item of filteredTasks; let i = index; trackBy:trackByItems;">
+                <td scope="row">{{i + 1}}</td>
+                <td id="td{{item.id.toString()}}" [ngClass]="{'text-decoration-line-through': item.status == 3}"
+                  (mouseenter)="changeCursor(item.id)" (click)="editTask(item.id)">
+                  {{item.title}}
+                </td>
+
+                <td>
+                  <ng-container [ngSwitch]="item.status">
+                    <span class="text-warning" *ngSwitchCase="1" class="text-danger">انتظار</span>
+                    <span class="text-warning" *ngSwitchCase="2" class="text-warning">در حال انجام</span>
+                    <span class="text-warning" *ngSwitchCase="3" class="text-success">انجام شده!</span>
+                    <span class="text-warning" *ngSwitchDefault class="text-dark">هیچکدام</span>
+                  </ng-container>
+                </td>
+
+                <td>
+                  <div class="progress" style="height: 20px;">
+                    <div [ngClass]="{'progress-bar progress-bar-striped bg-success': item.status == 3, 'progress-bar progress-bar-striped bg-warning': item.status == 2
+                                      , 'progress-bar progress-bar-striped bg-danger': item.status == 1}"
+                      role="progressbar" style="width: {{100/3*item.status}}%" aria-valuenow="100" aria-valuemin="0"
+                      aria-valuemax="100">
+                      <!-- {{100/3*item.status}}%-->
+                    </div>
+                  </div>
+                </td>
+
+                <td>
+                  <ng-container [ngSwitch]="item.status">
+                    <app-icon-button type="submit" color="outline-warning" title="در حال انجام" *ngSwitchCase="1"
+                      icon="skip-start-btn-fill" customClass="ms-1"
+                      (clicked)="changeStatus(item.id, item.status + 1)"></app-icon-button>
+
+                    <app-icon-button type="submit" color="outline-info" title="انتظار" *ngSwitchCase="2"
+                      icon="hourglass" customClass="ms-1"
+                      (clicked)="changeStatus(item.id, item.status - 1)"></app-icon-button>
+
+                    <app-icon-button type="submit" color="outline-info" title="در حال انجام" *ngSwitchCase="3"
+                      icon="skip-start-btn-fill" customClass="ms-1"
+                      (clicked)="changeStatus(item.id, item.status - 1)"></app-icon-button>
+
+                    <app-icon-button type="submit" color="outline-success" title="پایان یافته" *ngSwitchCase="2"
+                      icon="check-square-fill" customClass="ms-1"
+                      (clicked)="changeStatus(item.id, item.status + 1)"></app-icon-button>
+                  </ng-container>
+                  <app-icon-button type="submit" color="outline-danger" title="حذف" icon="x-square-fill"
+                    (clicked)="deleteTask(item.id)"></app-icon-button>
+                </td>
+
+              </tr>
+            </ng-container>
+            <ng-template #noItemInTask>
+              <tr>
+                <td colspan="4">
+                  <h4 class="text-center">هیچ کاری وجود ندارد</h4>
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

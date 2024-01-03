@@ -4,6 +4,8 @@ import { Book } from '../book';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
 import { BookService } from '../book.service';
+import { BookCategory } from '../book-category';
+import { BookcategoryService } from '../bookcategory.service';
 
 @Component({
   selector: 'app-book-ops',
@@ -18,20 +20,7 @@ import { BookService } from '../book.service';
 export class BookOpsComponent implements OnInit {
   guid: string | null
   summary: string = ''
-  categories = [
-    {
-      id: 1,
-      title: 'Programing'
-    },
-    {
-      id: 2,
-      title: 'Testing'
-    },
-    {
-      id: 2,
-      title: 'Architecture'
-    }
-  ]
+  categories:BookCategory[] = []
   // book: Book = {
   //   guid: '',
   //   title: '',
@@ -55,7 +44,8 @@ export class BookOpsComponent implements OnInit {
   constructor(private readonly activatedroute: ActivatedRoute,
     private readonly formBuilder: FormBuilder,
     private readonly bookService: BookService,
-    private readonly router: Router) {
+    private readonly router: Router,
+    private readonly bookCategoryService: BookcategoryService) {
     this.bookForm = formBuilder.group({
       guid: [''],
       title: ['', [
@@ -72,7 +62,7 @@ export class BookOpsComponent implements OnInit {
       date: [''],
       isPublished: [false]
     })
-
+    this.categories = bookCategoryService.list()
     this.guid = activatedroute.snapshot.paramMap.get('guid')
     console.log(this.guid)
 
